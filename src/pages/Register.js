@@ -6,8 +6,8 @@ import wallet from "../images/wallet.svg";
 function Register() {
   const [register, setRegister] = useState()
   return (
-    <div style={{ backgroundColor: "#F8F8FE", height: 1503 }}>
-      <div className="flex pt-9 items-center pb-10 gap-x-16 ml-44">
+    <div style={{ backgroundColor: "#F8F8FE" }}>
+      <div className="flex pt-4 items-center pb-4 gap-x-16 ml-44">
         <div className="flex items-center">
           <img src={logo} width={35} height={35} />
           <p style={{ fontFamily: "Roboto", fontSize: 20, fontWeight: 700 }}>
@@ -68,19 +68,19 @@ function Register() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-y-16 w-3/5 m-auto">
+      <div className="flex flex-col items-center gap-y-4 w-3/5 m-auto">
         <p
-          style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 40 }}
+          style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 20 }}
           className="text-center"
         >
           Register Claims
         </p>
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-4">
           <p
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -91,18 +91,18 @@ function Register() {
               placeholder="1234567898"
               style={{
                 width: 566,
-                height: 79,
+                height: 40,
                 borderRadius: "10px 0px 0px 10px",
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
             <button
               style={{
                 width: 109,
-                height: 79,
+                height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: "0px 10px 10px 0px",
                 color: "white",
@@ -118,7 +118,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -129,12 +129,12 @@ function Register() {
               placeholder="_ _ _ _"
               style={{
                 width: 675,
-                height: 79,
+                height: 40,
                 borderRadius: 10,
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
           </div>
@@ -142,7 +142,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -153,18 +153,18 @@ function Register() {
               placeholder="johndoe@gmail.com"
               style={{
                 width: 566,
-                height: 79,
+                height: 40,
                 borderRadius: "10px 0px 0px 10px",
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
             <button
               style={{
                 width: 109,
-                height: 79,
+                height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: "0px 10px 10px 0px",
                 color: "white",
@@ -180,7 +180,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -191,12 +191,12 @@ function Register() {
               placeholder="_ _ _ _"
               style={{
                 width: 675,
-                height: 79,
+                height: 40,
                 borderRadius: 10,
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
           </div>
@@ -204,7 +204,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -215,18 +215,18 @@ function Register() {
               placeholder="Enter Facebook ID"
               style={{
                 width: 566,
-                height: 79,
+                height: 40,
                 borderRadius: "10px 0px 0px 10px",
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
             <button
               style={{
                 width: 109,
-                height: 79,
+                height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: "0px 10px 10px 0px",
                 color: "white",
@@ -242,7 +242,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 25,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -253,26 +253,27 @@ function Register() {
               placeholder="_ _ _ _"
               style={{
                 width: 675,
-                height: 79,
+                height: 40,
                 borderRadius: 10,
                 paddingLeft: 20,
                 fontFamily: "Roboto",
                 fontWeight: 400,
-                fontSize: 25,
+                fontSize: 15,
               }}
             />
           </div>
           <button
             style={{
               width: 672,
-              height: 79,
+              height: 40,
               background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
               borderRadius: 10,
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 32,
+              fontSize: 20,
               color: "white",
               marginTop: 20,
+              marginBottom: 20,
             }}
           >
             Register Claims
