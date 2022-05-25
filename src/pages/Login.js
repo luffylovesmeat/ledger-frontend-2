@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../images/logo.svg";
 import eye from "../images/eye.svg";
 import create from "../images/create.svg";
@@ -6,6 +6,13 @@ import ghost from "../images/ghost.svg";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [address, setAddress] = useState('')
+
+  const fetchAddress = async() =>{
+    const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    setAddress(addresses[0])
+  }
+
   return (
     <div
       style={{
@@ -58,6 +65,7 @@ const Login = () => {
               fontSize: 23,
               paddingLeft: 22,
             }}
+            value={address}
           />
           <button
             style={{
@@ -70,6 +78,7 @@ const Login = () => {
               fontWeight: 400,
               fontSize: 23,
             }}
+            onClick={()=> fetchAddress()}
           >
             Fetch Ghost ID
           </button>

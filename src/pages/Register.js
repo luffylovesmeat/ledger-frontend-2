@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
 
 function Register() {
+  const [register, setRegister] = useState()
   return (
     <div style={{ backgroundColor: "#F8F8FE", height: 1503 }}>
       <div className="flex pt-9 items-center pb-10 gap-x-16 ml-44">
