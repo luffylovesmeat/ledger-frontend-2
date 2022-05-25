@@ -4,13 +4,16 @@ import eye from "../images/eye.svg";
 import create from "../images/create.svg";
 import ghost from "../images/ghost.svg";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
 
 const Login = () => {
   const [address, setAddress] = useState('')
-
+  const web3 = new Web3(Web3.givenProvider)
   const fetchAddress = async() =>{
-    const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
+  await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async(res)=>{
+    const addresses = await web3.eth.getAccounts()
     setAddress(addresses[0])
+  });
   }
 
   return (
@@ -62,7 +65,7 @@ const Login = () => {
               height: 50,
               fontFamily: "Roboto",
               fontWeight: 400,
-              fontSize: 23,
+              fontSize: 18,
               paddingLeft: 22,
             }}
             value={address}
@@ -102,7 +105,7 @@ const Login = () => {
               height: 50,
               fontFamily: "Roboto",
               fontWeight: 400,
-              fontSize: 23,
+              fontSize: 18,
               paddingLeft: 22,
             }}
           />

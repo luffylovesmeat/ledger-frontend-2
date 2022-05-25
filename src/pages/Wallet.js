@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ghost from "../images/ghost.svg";
 import meta from "../images/meta.svg";
+import { Link } from "react-router-dom";
 
 const Wallet = () => {
   const [address, setAddress] = useState('')
@@ -37,6 +38,7 @@ const Wallet = () => {
         <div className="flex justify-center items-center">
           <img src={meta} />
         </div>
+        <Link to="/dashboard">
         <button
           style={{
             fontFamily: "Roboto",
@@ -55,6 +57,7 @@ const Wallet = () => {
         >
           Connect your Wallet
         </button>
+        </Link>
         <div style={{ marginLeft: 161 }} className="flex items-center gap-x-6">
           <input
             type="checkbox"
