@@ -9,21 +9,22 @@ const Wallet = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 62,
-        paddingBottom: 62,
+        paddingTop: 30,
+        paddingBottom: 30,
         backgroundColor: "#F8F8FE",
+        height: "100vh",
       }}
     >
       <div
         style={{
-          height: 900,
+          height: 600,
           width: 866,
           border: "1px solid white",
           backgroundColor: "white",
         }}
-        className="flex flex-col gap-y-20"
+        className="flex flex-col gap-y-12"
       >
-        <div className="flex justify-center items-center mt-24">
+        <div className="flex justify-center items-center mt-4">
           <img src={ghost} />
         </div>
         <div className="flex justify-center items-center">
@@ -40,7 +41,7 @@ const Wallet = () => {
             borderRadius: 10,
             marginLeft: 132,
             color: "white",
-            marginTop: 30,
+            marginTop: 10,
           }}
         >
           Connect your Wallet

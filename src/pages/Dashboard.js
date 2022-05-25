@@ -1,14 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
-import m from "../images/m.svg";
+import meter from "../images/meter.svg";
 import credit from "../images/credit.svg";
 import crypto from "../images/crypto.svg";
 
 const Dashboard = () => {
   return (
-    <div style={{ backgroundColor: "#F8F8FE" }} className="flex">
+    <div style={{ backgroundColor: "#F8F8FE", height: 1470 }} className="flex">
       <div className="left w-1/5 bg-white flex flex-col items-center pt-9 gap-y-9">
         <div className="flex items-center">
           <img src={logo} width={35} height={35} />
@@ -42,20 +43,22 @@ const Dashboard = () => {
           style={{ backgroundColor: "#F8F8FE", width: 280, height: 200 }}
           className="flex flex-col gap-y-3"
         >
-          <button
-            style={{
-              background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
-              borderRadius: 6,
-              height: 48,
-              width: 280,
-              color: "white",
-              fontFamily: "Inter",
-              fontWeight: 500,
-              fontSize: 16,
-            }}
-          >
-            Register Claims
-          </button>
+          <Link to="/register">
+            <button
+              style={{
+                background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
+                borderRadius: 6,
+                height: 48,
+                width: 280,
+                color: "white",
+                fontFamily: "Inter",
+                fontWeight: 500,
+                fontSize: 16,
+              }}
+            >
+              Register Claims
+            </button>
+          </Link>
           <p
             style={{
               fontFamily: "Inter",
@@ -220,21 +223,24 @@ const Dashboard = () => {
                 Claims completed: None
               </p>
             </div>
-            <button
-              style={{
-                background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
-                borderRadius: 6,
-                width: 159,
-                height: 48,
-                color: "white",
-                fontFamily: "Roboto",
-                fontWeight: 400,
-                fontSize: 14,
-                marginTop: 22,
-              }}
-            >
-              Register Claims
-            </button>
+            <Link to="/register">
+              <button
+                style={{
+                  background:
+                    "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
+                  borderRadius: 6,
+                  width: 159,
+                  height: 48,
+                  color: "white",
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 14,
+                  marginTop: 22,
+                }}
+              >
+                Register Claims
+              </button>
+            </Link>
           </div>
         </div>
         <div className="flex items-center">
@@ -249,8 +255,23 @@ const Dashboard = () => {
           <div style={{ width: 406, height: 540 }}></div>
         </div>
         <div className="flex items-center mt-10 gap-x-12">
-          <img src={credit} />
-          <img src={crypto} />
+          <div>
+            <img
+              src={credit}
+              zIndex={1}
+              style={{ position: "absolute", left: 330, top: 1030 }}
+            />
+            <img
+              src={meter}
+              zIndex={2}
+              style={{ position: "absolute", left: 400, top: 1120 }}
+            />
+          </div>
+          <img
+            src={crypto}
+            zIndex={3}
+            style={{ position: "absolute", left: 900, top: 1030 }}
+          />
         </div>
       </div>
     </div>
