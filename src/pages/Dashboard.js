@@ -6,10 +6,26 @@ import wallet from "../images/wallet.svg";
 import meter from "../images/meter.svg";
 import credit from "../images/credit.svg";
 import crypto from "../images/crypto.svg";
+import excellent from "../images/excellent.svg";
+import pointer from "../images/pointer.svg";
+import arr from "../images/arr.svg";
+import upd from "../images/upd.svg";
+import m1 from "../images/m1.svg";
+import m2 from "../images/m2.svg";
+import m3 from "../images/m3.svg";
+import m4 from "../images/m4.svg";
+import m5 from "../images/m5.svg";
+import m6 from "../images/m6.svg";
+import m7 from "../images/m7.svg";
+import cx from "../images/cx.svg";
+import { Graph } from "../components/Graph";
 
 const Dashboard = () => {
   return (
-    <div style={{ backgroundColor: "#F8F8FE", height: 1470 }} className="flex">
+    <div
+      style={{ backgroundColor: "#F8F8FE", height: "1400px" }}
+      className="flex"
+    >
       <div className="left w-1/5 bg-white flex flex-col items-center pt-9 gap-y-9">
         <div className="flex items-center">
           <img src={logo} width={35} height={35} />
@@ -243,16 +259,44 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-x-2">
           <div
             style={{
-              width: 693,
+              width: 675,
               height: 540,
               backgroundColor: "white",
               borderRadius: "30px 0px 0px 30px",
             }}
-          ></div>
-          <div style={{ width: 406, height: 540 }}></div>
+          >
+            <img src={cx} />
+            <Graph />
+          </div>
+          <div style={{ width: 406, height: 540 }}>
+            <div
+              className="bg-white flex items-center pl-5 gap-x-10"
+              style={{ width: 406, height: 65 }}
+            >
+              <img src={arr} />
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 500,
+                  fontSize: 20,
+                  color: "#969696",
+                }}
+              >
+                Market Cap
+              </p>
+              <img src={upd} className="ml-36" />
+            </div>
+            <img src={m1} />
+            <img src={m2} />
+            <img src={m3} />
+            <img src={m4} />
+            <img src={m5} />
+            <img src={m6} />
+            <img src={m7} />
+          </div>
         </div>
         <div className="flex items-center mt-10 gap-x-12">
           <div>
@@ -266,10 +310,20 @@ const Dashboard = () => {
               zIndex={2}
               style={{ position: "absolute", left: 400, top: 1120 }}
             />
+            <img
+              src={excellent}
+              zIndex={3}
+              style={{ position: "absolute", left: 440, top: 1220 }}
+            />
+            <img
+              src={pointer}
+              zIndex={4}
+              style={{ position: "absolute", left: 460, top: 1170 }}
+            />
           </div>
           <img
             src={crypto}
-            zIndex={3}
+            zIndex={5}
             style={{ position: "absolute", left: 900, top: 1030 }}
           />
         </div>
