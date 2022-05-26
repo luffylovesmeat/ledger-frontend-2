@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import ghost from "../images/ghost.svg";
 import meta from "../images/meta.svg";
+import { Link } from "react-router-dom";
 
 const Wallet = () => {
+  const [address, setAddress] = useState('')
+
+  const connectWallet = async() =>{
+    const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    setAddress(addresses[0])
+  }
+
   return (
     <div
       style={{
@@ -30,6 +38,7 @@ const Wallet = () => {
         <div className="flex justify-center items-center">
           <img src={meta} />
         </div>
+        <Link to="/dashboard">
         <button
           style={{
             fontFamily: "Roboto",
@@ -43,9 +52,12 @@ const Wallet = () => {
             color: "white",
             marginTop: 10,
           }}
+
+          onClick={()=> connectWallet()}
         >
           Connect your Wallet
         </button>
+        </Link>
         <div style={{ marginLeft: 161 }} className="flex items-center gap-x-6">
           <input
             type="checkbox"

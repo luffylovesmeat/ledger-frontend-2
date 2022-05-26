@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../images/logo.svg";
 import eye from "../images/eye.svg";
 import create from "../images/create.svg";
 import ghost from "../images/ghost.svg";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
 
 const Login = () => {
+  const [address, setAddress] = useState('')
+  const web3 = new Web3(Web3.givenProvider)
+  const fetchAddress = async() =>{
+  await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async(res)=>{
+    const addresses = await web3.eth.getAccounts()
+    setAddress(addresses[0])
+  });
+  }
+
   return (
     <div
       style={{
@@ -55,9 +65,10 @@ const Login = () => {
               height: 50,
               fontFamily: "Roboto",
               fontWeight: 400,
-              fontSize: 23,
+              fontSize: 18,
               paddingLeft: 22,
             }}
+            value={address}
           />
           <button
             style={{
@@ -70,6 +81,7 @@ const Login = () => {
               fontWeight: 400,
               fontSize: 23,
             }}
+            onClick={()=> fetchAddress()}
           >
             Fetch Ghost ID
           </button>
@@ -93,7 +105,7 @@ const Login = () => {
               height: 50,
               fontFamily: "Roboto",
               fontWeight: 400,
-              fontSize: 23,
+              fontSize: 18,
               paddingLeft: 22,
             }}
           />
