@@ -17,7 +17,7 @@ import m4 from "../images/m4.svg";
 import m5 from "../images/m5.svg";
 import m6 from "../images/m6.svg";
 import m7 from "../images/m7.svg";
-import cx from "../images/cx.svg";
+import bell from "../images/bell.svg";
 import { Graph } from "../components/Graph";
 
 const Dashboard = () => {
@@ -268,7 +268,156 @@ const Dashboard = () => {
               borderRadius: "30px 0px 0px 30px",
             }}
           >
-            <img src={cx} />
+            <div
+              style={{ width: "100%", height: 69 }}
+              className="flex items-center pl-12 gap-x-96"
+            >
+              <p style={{ fontFamily: "Inter", fontWeight: 500, fontSize: 23 }}>
+                LED/USD
+              </p>
+              <button
+                style={{
+                  background:
+                    "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
+                  borderRadius: 5,
+                  width: 70,
+                  height: 33,
+                  fontFamily: "Inter",
+                  fontWeight: 500,
+                  fontSize: 17,
+                  color: "white",
+                }}
+              >
+                BUY
+              </button>
+            </div>
+            <div
+              style={{ width: "100%", height: 69, backgroundColor: "#F8F8FE" }}
+              className="flex justify-around items-center"
+            >
+              <div className="flex gap-x-3">
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontWeight: 400,
+                    fontSize: 17,
+                    color: "#C4C4C4",
+                  }}
+                >
+                  High
+                </p>
+                <span
+                  style={{
+                    fontFamily: "Roboto",
+                    fontWeight: 400,
+                    fontSize: 20,
+                    color: "#30364D",
+                  }}
+                >
+                  $0.001609
+                </span>
+              </div>
+              <div className="flex gap-x-3">
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontWeight: 400,
+                    fontSize: 17,
+                    color: "#C4C4C4",
+                  }}
+                >
+                  Low
+                </p>
+                <span
+                  style={{
+                    fontFamily: "Roboto",
+                    fontWeight: 400,
+                    fontSize: 20,
+                    color: "#30364D",
+                  }}
+                >
+                  $0.001537
+                </span>
+              </div>
+              <div className="flex gap-x-3">
+                <p
+                  style={{
+                    fontFamily: "Roboto",
+                    fontWeight: 400,
+                    fontSize: 17,
+                    color: "#C4C4C4",
+                  }}
+                >
+                  Price Alert
+                </p>
+                <img src={bell} />
+              </div>
+            </div>
+            <div
+              style={{ width: "100%", height: 69 }}
+              className="flex items-center gap-x-16 pl-16"
+            >
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "#C4C4C4",
+                }}
+              >
+                1 min
+              </p>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "#C4C4C4",
+                }}
+              >
+                5 min
+              </p>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "#C4C4C4",
+                }}
+              >
+                15 min
+              </p>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "black",
+                }}
+              >
+                1 hr
+              </p>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "#C4C4C4",
+                }}
+              >
+                4 hr
+              </p>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 400,
+                  fontSize: 17,
+                  color: "#C4C4C4",
+                }}
+              >
+                1 day
+              </p>
+            </div>
             <Graph />
           </div>
           <div style={{ width: 406, height: 540 }}>
