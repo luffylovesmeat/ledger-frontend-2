@@ -5,3 +5,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #384056;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f8f8fe;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #835ee9;
+}
