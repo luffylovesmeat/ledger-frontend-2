@@ -2,17 +2,63 @@ import React, { useState } from "react";
 import ghost from "../images/ghost.svg";
 import meta from "../images/meta.svg";
 import { Link } from "react-router-dom";
+import Web3 from "web3";
+import rawData from "../contracts/identity"
+import axios from "axios";
+import { Loader } from "../shared/Loader";
 
 const Wallet = () => {
   const [address, setAddress] = useState('')
+  const [redirect, setRedirect] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const web3 = new Web3(Web3.givenProvider)
 
   const connectWallet = async() =>{
-    const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    setAddress(addresses[0])
+    try {
+      setLoading(true)
+      const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' }).
+      then(async(res)=>{
+        setAddress(res[0])
+        console.log("dshfklsdnf")
+        generateGhostId()
+      })
+    } catch (error) {
+      setLoading(false)
+    }
   }
 
+  const generateGhostId = async() =>{
+     try {
+      console.log("it runs")
+      const account = await web3.eth.getAccounts()
+      var RawContract = rawData
+      console.log(RawContract,"fdshfhskjfhskfhkshfksdzflskfoj")
+      var Contract = new web3.eth.Contract(RawContract.abi)
+      var tx = Contract.deploy({
+        data: '0x'+RawContract.data,
+        arguments: [[], [], [], '0x', '0x', '', [], [], []]
+      })
+      .send({ gas: 4612388, from: account[0] })
+      .on('receipt',async function(receipt){
+        console.log(receipt.contractAddress) 
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/saveGhostId`,{
+          address: account[0],
+          ghostId: receipt.contractAddress
+        })
+        setLoading(false)
+        window.location.href = '/dashboard'
+     })
+     } catch (error) {
+       setLoading(false)
+     }
+  }
+
+
   return (
-    <div
+     <>
+     {loading && <Loader />}
+         <div
       style={{
         display: "flex",
         justifyContent: "center",
@@ -38,7 +84,7 @@ const Wallet = () => {
         <div className="flex justify-center items-center">
           <img src={meta} />
         </div>
-        <Link to="/dashboard">
+        {/* <Link to="/dashboard"> */}
         <button
           style={{
             fontFamily: "Roboto",
@@ -52,16 +98,16 @@ const Wallet = () => {
             color: "white",
             marginTop: 10,
           }}
-
           onClick={()=> connectWallet()}
         >
           Connect your Wallet
         </button>
-        </Link>
+        {/* </Link> */}
         <div style={{ marginLeft: 161 }} className="flex items-center gap-x-6">
           <input
             type="checkbox"
-            style={{ width: 13, height: 11, transform: "scale(3)" }}
+            style={{ width: 13, height: 11, transform: "scale(3)"
+           }}
           />
           <p style={{ fontFamily: "Rubik", fontSize: 22, fontWeight: 400 }}>
             By continuing you are agreeing to our{" "}
@@ -70,6 +116,7 @@ const Wallet = () => {
         </div>
       </div>
     </div>
+     </>
   );
 };
 

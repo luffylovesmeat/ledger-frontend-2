@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
@@ -19,8 +19,30 @@ import m6 from "../images/m6.svg";
 import m7 from "../images/m7.svg";
 import bell from "../images/bell.svg";
 import { Graph } from "../components/Graph";
+import axios from "axios";
+import Web3 from "web3";
+import { Loader } from "../shared/Loader";
 
 const Dashboard = () => {
+
+  const [ghostId, setGhostId] = useState('')
+  const web3 = new Web3(Web3.givenProvider)
+
+  const getGhostId = async() =>{
+    const account = await web3.eth.getAccounts()
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
+    {
+      address: account[0]
+    })
+    .then((res)=>{
+      console.log(res,"res")
+      setGhostId(res.data.ghostId)
+    })
+  }
+
+  useEffect(()=>{
+    getGhostId()
+  },[])
   return (
     <div
       style={{ backgroundColor: "#F8F8FE", height: "1400px" }}
@@ -53,6 +75,16 @@ const Dashboard = () => {
             }}
           >
             Ghost ID
+          </p>
+          <p
+            style={{
+              color: "rgba(48, 54, 77, 0.67)",
+              fontFamily: "Inter",
+              fontWeight: 500,
+              fontSize: 19,
+            }}
+          >
+            Card
           </p>
         </div>
         <div
@@ -233,7 +265,7 @@ const Dashboard = () => {
             </p>
             <div className="flex flex-col">
               <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
-                ID: xndjsdiumn878734
+                ID: {ghostId}
               </p>
               <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
                 Claims completed: None
