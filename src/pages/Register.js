@@ -1,10 +1,50 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
+import { authentication } from "../firebase.config";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 function Register() {
-  const [register, setRegister] = useState()
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const requestOtp = (e) => {
+    if (phoneNumber.length >= 10) {
+      window.recaptchaverifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {},
+        },
+        authentication
+      );
+      let appVerifier = window.recaptchaverifier;
+      signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+  const verifyOtp = (e) => {
+    let p = e.target.value;
+    setOtp(p);
+    if (p.length === 6) {
+      let confirmationResult = window.confirmationResult;
+      confirmationResult
+        .confirm(p)
+        .then((result) => {
+          const user = result.user;
+          alert("User Created", user);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
   return (
     <div style={{ backgroundColor: "#F8F8FE" }}>
       <div className="flex pt-4 items-center pb-4 gap-x-16 ml-44">
@@ -98,6 +138,8 @@ function Register() {
                 fontWeight: 400,
                 fontSize: 15,
               }}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <button
               style={{
@@ -110,6 +152,7 @@ function Register() {
                 fontWeight: 500,
                 fontSize: 23,
               }}
+              onClick={requestOtp}
             >
               Verify
             </button>
@@ -136,6 +179,8 @@ function Register() {
                 fontWeight: 400,
                 fontSize: 15,
               }}
+              value={otp}
+              onChange={verifyOtp}
             />
           </div>
           <p
@@ -280,6 +325,7 @@ function Register() {
           </button>
         </div>
       </div>
+      <div id="recaptcha-container"></div>
     </div>
   );
 }

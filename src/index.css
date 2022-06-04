@@ -22,3 +22,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #835ee9;
 }
+
+*:focus {
+  outline: none;
+}
