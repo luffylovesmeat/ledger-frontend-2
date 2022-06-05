@@ -4,7 +4,12 @@ import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
 import { authentication } from "../firebase.config";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  signInWithPopup,
+  FacebookAuthProvider,
+} from "firebase/auth";
 
 function Register() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,6 +49,16 @@ function Register() {
           console.log(error);
         });
     }
+  };
+  const signInWithFb = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(authentication, provider)
+      .then((re) => {
+        alert("User signed in");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <div style={{ backgroundColor: "#F8F8FE" }}>
@@ -279,6 +294,7 @@ function Register() {
                 fontWeight: 500,
                 fontSize: 23,
               }}
+              onClick={signInWithFb}
             >
               Verify
             </button>
