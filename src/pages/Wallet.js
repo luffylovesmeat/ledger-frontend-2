@@ -46,8 +46,13 @@ const Wallet = () => {
           address: account[0],
           ghostId: receipt.contractAddress
         })
+        localStorage.setItem("GhostId", receipt.contractAddress);
         setLoading(false)
         window.location.href = '/dashboard'
+     }).
+     catch((err)=>{
+       console.log("err")
+       setLoading(false)
      })
      } catch (error) {
        setLoading(false)

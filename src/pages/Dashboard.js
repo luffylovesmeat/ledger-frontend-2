@@ -30,14 +30,21 @@ const Dashboard = () => {
 
   const getGhostId = async() =>{
     const account = await web3.eth.getAccounts()
-    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
-    {
-      address: account[0]
-    })
-    .then((res)=>{
-      console.log(res,"res")
-      setGhostId(res.data.ghostId)
-    })
+    const id = localStorage.getItem("GhostId");
+    if(id){
+      setGhostId(id)
+    }
+    else{
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
+      {
+        address: account[0]
+      })
+      .then((res)=>{
+        console.log(res,"res")
+        localStorage.setItem("GhostId" , res.data.ghostId)
+        setGhostId(res.data.ghostId)
+      })
+    }
   }
 
   useEffect(()=>{
