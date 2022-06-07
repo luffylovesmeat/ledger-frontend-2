@@ -1,0 +1,7 @@
+.register-page {
+  background-color: "#F8F8FE";
+}
+.input-register-field {
+  display: flex;
+  flex-direction: row;
+}

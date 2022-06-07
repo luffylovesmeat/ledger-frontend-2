@@ -16,6 +16,7 @@ import {phoneNotype, emailType, facebookType} from '../claimType'
 import rawData from '../contracts/identity'
 import Web3 from "web3";
 import {issuer} from "../config"
+import "./Login.css"
 
 function Register() {
   
@@ -158,15 +159,15 @@ function Register() {
   }
 
   return (
-    <div style={{ backgroundColor: "#F8F8FE" }}>
-      <div className="flex pt-4 items-center pb-4 gap-x-16 ml-44">
+    <div className="register-page" >
+      <div className="container flex pt-4 items-center justify-center pb-4 gap-x-16 mx-auto px-8">
         <div className="flex items-center">
           <img src={logo} width={35} height={35} />
           <p style={{ fontFamily: "Roboto", fontSize: 20, fontWeight: 700 }}>
             LedgerScore
           </p>
         </div>
-        <div className="flex">
+        <div className="flex w-full">
           <div
             style={{
               width: 38,
@@ -178,10 +179,11 @@ function Register() {
             <img src={search} />
           </div>
           <input
+          className="min-w-[40px] w-full max-w-[500px]"
             style={{
-              width: 500,
               height: 54,
               borderRadius: "0px 10px 10px 0px",
+              maxWidth:"500px"
             }}
             placeholder="Search..."
           />
@@ -220,7 +222,7 @@ function Register() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-y-4 w-3/5 m-auto">
+      <div className="flex flex-col items-center gap-y-4 w-full lg:w-3/5 m-auto">
         <p
           style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 20 }}
           className="text-center"
@@ -238,7 +240,7 @@ function Register() {
           >
             Phone Number
           </p>
-          <div>
+          <div className="input-register-field">
             <input
               placeholder="1234567898"
               style={{
@@ -279,7 +281,7 @@ function Register() {
           >
             Enter OTP
           </p>
-          <div>
+          <div className="input-register-field">
             <input
               placeholder="_ _ _ _"
               style={{
@@ -319,7 +321,7 @@ function Register() {
           >
             E-Mail
           </p>
-          <div>
+          <div className="input-register-field"> 
             <input
               placeholder="johndoe@gmail.com"
               style={{
@@ -360,7 +362,7 @@ function Register() {
           >
             Enter OTP
           </p>
-          <div>
+          <div className="input-register-field">
             <input
               placeholder="_ _ _ _"
               style={{
@@ -400,7 +402,7 @@ function Register() {
           >
             Facebook Verification
           </p>
-          <div>
+          <div className="input-register-field">
             <button
               style={{
                 width: 672,
@@ -428,7 +430,7 @@ function Register() {
               fontWeight: 600,
               fontSize: 20,
               color: "white",
-              marginTop: 40,
+              marginTop: 10,
               marginBottom: 20,
             }}
             onClick={registerClaims}
