@@ -291,7 +291,7 @@ function Register() {
                 fontWeight: 400,
                 fontSize: 15,
               }}
-              onClick={(e)=>setOtpPhoneNo(e.target.value)}
+              onChange={(e)=>setOtpPhoneNo(e.target.value)}
             />
             <button
               style={{
@@ -372,7 +372,7 @@ function Register() {
                 fontWeight: 400,
                 fontSize: 15,
               }}
-              onClick={(e)=>setOtp(e.target.value)}
+              onChange={(e)=>setOtp(e.target.value)}
             />
             <button
               style={{
