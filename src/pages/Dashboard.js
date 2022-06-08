@@ -22,11 +22,29 @@ import { Graph } from "../components/Graph";
 import axios from "axios";
 import Web3 from "web3";
 import { Loader } from "../shared/Loader";
+import rawData from "../contracts/identity"
 
 const Dashboard = () => {
 
   const [ghostId, setGhostId] = useState('')
+  const [counts, setCounts] = useState('')
   const web3 = new Web3(Web3.givenProvider)
+
+  const checkClaims = async() =>{
+     try {
+      const contract = new web3.eth.Contract(rawData.abi,ghostId)
+      var count =0;
+      for(let i=1;i<=3;i++){
+        const data = await contract.methods.getClaimIdsByType(i).call()
+        if(data.length > 0){
+          count++;
+        }
+      }
+      setCounts(count)
+     } catch (error) {
+       console.log(error)
+     }
+  }
 
   const getGhostId = async() =>{
     const account = await web3.eth.getAccounts()
@@ -50,6 +68,10 @@ const Dashboard = () => {
   useEffect(()=>{
     getGhostId()
   },[])
+
+  useEffect(()=>{
+    checkClaims()
+  },[ghostId])
   return (
     <div
       style={{ backgroundColor: "#F8F8FE", height: "1400px" }}
@@ -275,7 +297,7 @@ const Dashboard = () => {
                 ID: {ghostId}
               </p>
               <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
-                Claims completed: None
+                Claims completed: {counts}
               </p>
             </div>
             <Link to="/register">

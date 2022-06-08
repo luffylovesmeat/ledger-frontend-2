@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../images/logo.svg";
 import eye from "../images/eye.svg";
 import create from "../images/create.svg";
 import ghost from "../images/ghost.svg";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
+import axios from "axios";
 
 const Login = () => {
   const [address, setAddress] = useState('')
@@ -14,7 +15,35 @@ const Login = () => {
     const addresses = await web3.eth.getAccounts()
     setAddress(addresses[0])
   });
-  }
+}
+
+const checkIfAvailable = async () =>{
+  var addresses;
+  await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async(res)=>{
+    addresses = await web3.eth.getAccounts()
+    setAddress(addresses[0])
+  }).then(async(res)=>{
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
+      {
+        address: addresses[0]
+      })
+      .then((res)=>{
+        console.log(res,"res")
+        if(res.data.ghostId){
+          localStorage.setItem("GhostId" , res.data.ghostId)
+          window.location.href = '/dashboard'
+        }
+        else{
+          window.location.href = '/wallet'
+        }
+
+      })
+  })
+}
+
+useEffect(()=>{
+ checkIfAvailable()
+},[])
 
   return (
     <div

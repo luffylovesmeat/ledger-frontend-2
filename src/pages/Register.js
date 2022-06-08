@@ -17,6 +17,7 @@ import rawData from '../contracts/identity'
 import Web3 from "web3";
 import {issuer} from "../config"
 import "./Login.css"
+import { Loader } from "../shared/Loader";
 
 function Register() {
   
@@ -24,19 +25,12 @@ function Register() {
   const [email, setEmail] = useState('')
   const [otp, setOtp] = useState("");
   const [otpPhoneNo, setOtpPhoneNo] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const signerIdentity = EthCrypto.createIdentity();
   const web3 = new Web3(Web3.givenProvider)
 
   const [totalClaims,setTotalClaims] = useState([])
-
-  // const checkClaims = () =>{
-
-  // }
-
-  // const addClaims = () =>{
-    
-  // }
 
   const requestOtp = (e) => {
     if (phoneNumber.length >= 10) {
@@ -100,19 +94,28 @@ function Register() {
     }
   }
   const signInWithFb = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(authentication, provider)
-      .then((re) => {
-        setTotalClaims(data => [...data, facebookType])
-        alert("User signed in");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    try {
+      setLoading(true)
+      const provider = new FacebookAuthProvider();
+      signInWithPopup(authentication, provider)
+        .then((re) => {
+          setTotalClaims(data => [...data, facebookType])
+          alert("User signed in");
+          setLoading(false)
+        })
+        .catch((error) => {
+          setLoading(false)
+          console.log(error.message);
+        });
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
   };
 
   const registerClaims = async()=>{
    try {
+    setLoading(true)
     const id = localStorage.getItem("GhostId");
     const accounts = await web3.eth.getAccounts()
     const identityContract = new web3.eth.Contract(rawData.abi,id)
@@ -153,12 +156,21 @@ function Register() {
           data,
           uri
     ).send({from:accounts[0]})
+    .then((res)=>{
+      setLoading(false)
+    })
+    .catch((err)=>{
+      setLoading(false)
+    })
    } catch (error) {
+     setLoading(false)
      console.log(error,"error")
    }
   }
 
   return (
+    <>
+           {loading && <Loader />}
     <div className="register-page" >
       <div className="container flex pt-4 items-center justify-center pb-4 gap-x-16 mx-auto px-8">
         <div className="flex items-center">
@@ -260,15 +272,15 @@ function Register() {
                 width: 109,
                 height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
-                borderRadius: "0px 10px 10px 0px",
                 color: "white",
+                borderRadius: "0px 10px 10px 0px",
                 fontFamily: "Roboto",
                 fontWeight: 500,
                 fontSize: 23,
               }}
               onClick={requestOtp}
             >
-              Verify
+              Send OTP
             </button>
           </div>
           <p
@@ -308,7 +320,7 @@ function Register() {
               }}
               onClick={verifyOtp}
             >
-              Enter
+              Verify
             </button>
           </div>
           <p
@@ -349,7 +361,7 @@ function Register() {
               }}
               onClick={sendOtp}
             >
-              Verify
+              Send OTP
             </button>
           </div>
           <p
@@ -389,7 +401,7 @@ function Register() {
               }}
               onClick={verifyEmailOtp}
             >
-              Enter
+              Verify
             </button>
           </div>
           <p
@@ -441,6 +453,7 @@ function Register() {
       </div>
       <div id="recaptcha-container"></div>
     </div>
+    </>
   );
 }
 

@@ -11,11 +11,13 @@ const Wallet = () => {
   const [address, setAddress] = useState('')
   const [redirect, setRedirect] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [terms, setTerms] = useState(false)
 
   const web3 = new Web3(Web3.givenProvider)
 
   const connectWallet = async() =>{
     try {
+      console.log(terms,"terms")
       setLoading(true)
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' }).
       then(async(res)=>{
@@ -28,12 +30,32 @@ const Wallet = () => {
     }
   }
 
+  const handleClick = () =>{
+    if(terms == true){
+      connectWallet()
+    }
+    else{
+      acceptTerms()
+    }
+  }
+  const handleChange = async() =>{
+    if(terms == true){
+      setTerms(false)
+    }
+    else{
+      setTerms(true)
+    }
+  }
+
+  const acceptTerms = async() =>{
+    window.alert("Please accept the terms and conditions!");
+  }
+
   const generateGhostId = async() =>{
      try {
       console.log("it runs")
       const account = await web3.eth.getAccounts()
       var RawContract = rawData
-      console.log(RawContract,"fdshfhskjfhskfhkshfksdzflskfoj")
       var Contract = new web3.eth.Contract(RawContract.abi)
       var tx = Contract.deploy({
         data: '0x'+RawContract.data,
@@ -103,7 +125,7 @@ const Wallet = () => {
             color: "white",
             marginTop: 10,
           }}
-          onClick={()=> connectWallet()}
+          onClick={()=> handleClick()}
         >
           Connect your Wallet
         </button>
@@ -113,6 +135,7 @@ const Wallet = () => {
             type="checkbox"
             style={{ width: 13, height: 11, transform: "scale(3)"
            }}
+           onChange={handleChange}
           />
           <p style={{ fontFamily: "Rubik", fontSize: 22, fontWeight: 400 }}>
             By continuing you are agreeing to our{" "}
