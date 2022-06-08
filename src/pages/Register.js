@@ -18,6 +18,7 @@ import Web3 from "web3";
 import {issuer} from "../config"
 import "./Login.css"
 import { Loader } from "../shared/Loader";
+import Tooltip from '@mui/material/Tooltip';
 
 function Register() {
   
@@ -202,10 +203,37 @@ function Register() {
         </div>
         <div className="flex items-center">
           <img src={logo} width={44} height={44} />
-          <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17 }}>
+          <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17, minWidth:"120px" }}>
             $ 0.00156
           </p>
         </div>
+        <Tooltip interactive={true}
+                                    disableFocusListener
+                                    arrow
+                                    componentsProps={{
+                                        tooltip: {
+                                            sx: {
+                                                bgcolor: "common.white",
+                                                "& .MuiTooltip-arrow": {
+                                                    color: "common.white",
+                                                },
+                                            },
+                                        },
+                                    }}
+                                    title={
+                                      
+                                            <button
+                                                className="disconnectWallet"
+                                                // onClick={() => {
+                                                //     if (!userAccount) {
+                                                //         openModal();
+                                                //     }
+                                                // }}
+                                            >
+                                                Disconnect
+                                            </button>
+                                        
+                                    }>
         <div className="flex items-center">
           <div
             className="bg-white flex justify-center items-center"
@@ -213,26 +241,28 @@ function Register() {
           >
             <img src={wallet} width={32.36} height={30.2} />
           </div>
-          <div
-            className="bg-white"
-            style={{
-              width: 123,
-              height: 26,
-              borderRadius: "0px 11.5px 11.5px 0px",
-            }}
-          >
-            <p
+          
+            <div
+              className="bg-white cursor-pointer"
               style={{
-                fontFamily: "Roboto",
-                fontWeight: 600,
-                fontSize: 17,
-                paddingLeft: 22,
+                width: 123,
+                height: 26,
+                borderRadius: "0px 11.5px 11.5px 0px",
               }}
             >
-              ox...edf8
-            </p>
-          </div>
-        </div>
+              <p
+                style={{
+                  fontFamily: "Roboto",
+                  fontWeight: 600,
+                  fontSize: 17,
+                  // paddingLeft: 22,
+                }}
+              >
+                ox...edf8
+              </p>
+            </div>
+          
+        </div></Tooltip>
       </div>
       <div className="flex flex-col items-center gap-y-4 w-full lg:w-3/5 m-auto">
         <p
