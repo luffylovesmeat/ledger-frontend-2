@@ -53,9 +53,9 @@ const Login = () => {
                                         "GhostId",
                                         res.data.ghostId
                                     );
-                                    Navigate("/dashboard");
+                                    navigate("/dashboard");
                                 } else {
-                                    Navigate("/wallet");
+                                    navigate("/wallet");
                                 }
                             });
                     })
