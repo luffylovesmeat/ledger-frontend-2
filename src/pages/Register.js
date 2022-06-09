@@ -16,12 +16,14 @@ import {issuer} from "../config"
 import "./Login.css"
 import { Loader } from "../shared/Loader";
 import Header from "../components/header";
-
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Register() {
-  
+  let navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState('')
+  const [fbEmail,setFbEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpPhoneNo, setOtpPhoneNo] = useState("")
   const [loading, setLoading] = useState(false)
@@ -32,12 +34,20 @@ function Register() {
   const [fbVarified, setFbVarified] = useState(false)
 
   const signerIdentity = EthCrypto.createIdentity();
+  const [phoneNumberLoader,setPhoneNumberLoader] = useState(false);
+  const [otpLoader,setOtpLoader] = useState(false);
+  const [emailLoader,setEmailLoader] = useState(false);
+  const [emailOtpLoader,setEmailOtpLoader] = useState(false);
+
+
+
   const web3 = new Web3(Web3.givenProvider)
 
   const [totalClaims,setTotalClaims] = useState([])
 
   const requestOtp = (e) => {
     if (phoneNumber.length >= 10) {
+      setPhoneNumberLoader(true)
       setResendPhOtp(true)
       window.recaptchaverifier = new RecaptchaVerifier(
         "recaptcha-container",
@@ -51,14 +61,17 @@ function Register() {
       signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
         .then((confirmationResult) => {
           window.confirmationResult = confirmationResult;
+          setPhoneNumberLoader(false);
         })
         .catch((error) => {
           console.log(error);
+          setPhoneNumberLoader(false);
         });
     }
   };
   const verifyOtp = () => {
     if (otpPhoneNo.length === 6) {
+      setOtpLoader(true);
       let confirmationResult = window.confirmationResult;
       confirmationResult
         .confirm(otpPhoneNo)
@@ -66,25 +79,35 @@ function Register() {
           const user = result.user;
           setTotalClaims(data => [...data, phoneNotype])
           setPhVerified(true)
+          setOtpLoader(false);
         })
         .catch((error) => {
           console.log(error);
+          setOtpLoader(false);
         });
     }
   };
 
   const sendOtp = async() =>{
     setResendEmailOtp(true)
+    setEmailLoader(true);
     await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/emailotp`,
      {
        email
      }
-    )
+    ).then((res) => {
+      console.log(res);
+      setEmailLoader(false);
+    }).catch((err) => {
+      console.log(err);
+      setEmailLoader(false);
+    })
   }
 
   const verifyEmailOtp = async(e) => {
     console.log(otp,"otp")
     if(otp.length == 4){
+      setEmailOtpLoader(true);
        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/verifyotp`,
        {
          email,
@@ -98,6 +121,11 @@ function Register() {
         else{
           console.log("can not verify user")
         }
+        setEmailOtpLoader(false);
+       })
+       .catch((err) => {
+         console.log(err);
+         setEmailOtpLoader(false);
        })
     }
   }
@@ -110,6 +138,7 @@ function Register() {
           console.log(re,"facebook")
           setTotalClaims(data => [...data, facebookType])
           setFbVarified(true)
+          setFbEmail(re?.user.email)
           // alert("User signed in");
           setLoading(false)
         })
@@ -146,6 +175,9 @@ function Register() {
       if(i==1){
         uri.push(email)
       }
+      if(i==2) {
+        uri.push(fbEmail)
+      }
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/getSigns`,{
         identityAddress : id,
         claimType: totalClaims[i]
@@ -153,6 +185,9 @@ function Register() {
          const split = res.data.data.split('$')
          sign.push(split[0])
          data.push(split[1])
+         navigate('/dashboard')
+      }).catch((err) => {
+        console.log(err);
       })
     }
 
@@ -195,12 +230,12 @@ function Register() {
         >
           Register Claims
         </p>
-        <div className="flex flex-col text-center gap-y-4">
+        <div className="flex flex-col gap-y-4">
           <p
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 18,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -221,9 +256,10 @@ function Register() {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <button
-              className={phVerified == true? "disabled:cursor-not-allowed diabled--button":""}
+            <LoadingButton
+              className={phVerified == true? "disabled:cursor-not-allowed diabled--LoadingButton":""}
               disabled={phVerified == true? true:false}
+              loading={phoneNumberLoader}
               style={{
                 width: 109,
                 height: 40,
@@ -232,18 +268,18 @@ function Register() {
                 borderRadius: "0px 10px 10px 0px",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 17,
+                fontSize: 15,
               }}
               onClick={requestOtp}
             >
-              {resendPhOtp == false? "Send OTP": "Resend OTP"}
-            </button>
+              {!phoneNumberLoader && (resendPhOtp == false? "Send OTP": "Resend OTP")}
+            </LoadingButton>
           </div>
           <p
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 18,
+              fontSize: 15,
               color: "#30364D",
             }}
           >
@@ -263,9 +299,10 @@ function Register() {
               }}
               onChange={(e)=>setOtpPhoneNo(e.target.value)}
             />
-            <button
-              className={phVerified == true? "disabled:cursor-not-allowed diabled--button":""}
+            <LoadingButton
+              className={phVerified == true? "disabled:cursor-not-allowed diabled--LoadingButton":""}
               disabled={phVerified == true? true:false}
+              loading={otpLoader}
               style={{
                 width: 109,
                 height: 40,
@@ -274,12 +311,12 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 17,
+                fontSize: 15,
               }}
               onClick={verifyOtp}
             >
-              Verify
-            </button>
+              {!otpLoader && "Verify"}
+            </LoadingButton>
           </div>
           <p
             style={{
@@ -306,9 +343,10 @@ function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button
-              className={emailVerified == true? "disabled:cursor-not-allowed diabled--button":""}
+            <LoadingButton
+              className={emailVerified == true? "disabled:cursor-not-allowed diabled--LoadingButton":""}
               disabled={emailVerified == true? true:false}
+              loading={emailLoader}
               style={{
                 width: 109,
                 height: 40,
@@ -317,12 +355,12 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 17,
+                fontSize: 15,
               }}
               onClick={sendOtp}
             >
-              {resendEmailOtp == false? "Send OTP": "Resend OTP"}
-            </button>
+              {!emailLoader && (resendEmailOtp == false? "Send OTP": "Resend OTP")}
+            </LoadingButton>
           </div>
           <p
             style={{
@@ -348,9 +386,10 @@ function Register() {
               }}
               onChange={(e)=>setOtp(e.target.value)}
             />
-            <button
-              className={emailVerified == true? "disabled:cursor-not-allowed diabled--button":""}
+            <LoadingButton
+              className={emailVerified == true? "disabled:cursor-not-allowed diabled--LoadingButton":""}
               disabled={emailVerified == true? true:false}
+              loading={emailOtpLoader}
               style={{
                 width: 109,
                 height: 40,
@@ -359,15 +398,16 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 17,
+                fontSize: 15,
+                marginBottom:24
               }}
               onClick={verifyEmailOtp}
             >
-              Verify
-            </button>
+              {!emailOtpLoader && "Verify"}
+            </LoadingButton>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-row items-center justify-between">
           <p
             style={{
               fontFamily: "Roboto",
@@ -378,26 +418,26 @@ function Register() {
           >
             Facebook Verification
           </p>
-            <button
-              className={fbVarified == true? "disabled:cursor-not-allowed diabled--button":""}
+            <LoadingButton
+              className={fbVarified == true? "disabled:cursor-not-allowed diabled--LoadingButton mt-4":"mt-4"}
               disabled={fbVarified == true? true:false}
               style={{
-                width: 200,
+                width: 110,
                 height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: "10px 10px 10px 10px",
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 17,
+                fontSize: 15,
               }}
               onClick={signInWithFb}
             >
-              Verify
-            </button>
+              { "Verify"}
+            </LoadingButton>
           </div>
 
-          <button
+          <LoadingButton
             style={{
               width: 509,
               height: 40,
@@ -412,8 +452,8 @@ function Register() {
             }}
             onClick={registerClaims}
           >
-            Register Claims
-          </button>
+            { "Register Claims"}
+          </LoadingButton>
         </div>
       </div>
       <div id="recaptcha-container"></div>

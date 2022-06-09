@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
@@ -25,10 +25,10 @@ import { Loader } from "../shared/Loader";
 import rawData from "../contracts/identity"
 import Header from "../components/header";
 import { Tooltip } from '@mui/material'
-
+import Button from '@mui/material/Button';
 
 const Dashboard = () => {
-
+  let navigate = useNavigate();
   const [ghostId, setGhostId] = useState('')
   const [counts, setCounts] = useState('')
   const [phVerified, setPhVerified] = useState(false)
@@ -81,7 +81,7 @@ const Dashboard = () => {
         })
     }
   }
-
+ 
   useEffect(() => {
     getGhostId()
   }, [])
@@ -137,22 +137,17 @@ const Dashboard = () => {
           style={{ backgroundColor: "#F8F8FE", width: 280, height: 200 }}
           className="flex flex-col gap-y-3"
         >
-          <Link to="/register">
-            <button
-              style={{
-                background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
-                borderRadius: 6,
-                height: 48,
-                width: 280,
-                color: "white",
-                fontFamily: "Inter",
-                fontWeight: 500,
-                fontSize: 16,
-              }}
+            <Button
+              className={counts>=3 ? "disableBackground":"buttonRegisterClass"}
+              disabled={counts>=3}
+              onClick={() => {
+                  if(counts<3) {
+                    navigate("/register")
+                  }
+                }}
             >
               Register Claims
-            </button>
-          </Link>
+            </Button>
           <p
             style={{
               fontFamily: "Inter",
@@ -217,7 +212,7 @@ const Dashboard = () => {
             <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
               No details available
             </p>
-            <button
+            <Button
               style={{
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: 6,
@@ -231,7 +226,7 @@ const Dashboard = () => {
               }}
             >
               Pull Asset details
-            </button>
+            </Button>
           </div>
           <div
             style={{
@@ -281,24 +276,17 @@ const Dashboard = () => {
               </Tooltip>
 
             </div>
-            <Link to="/register">
-              <button
-                style={{
-                  background:
-                    "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
-                  borderRadius: 6,
-                  width: 159,
-                  height: 48,
-                  color: "white",
-                  fontFamily: "Roboto",
-                  fontWeight: 400,
-                  fontSize: 14,
-                  marginTop: 22,
+              <Button
+                className={counts>=3 ? "disableBackground":"buttonRegisterClass"}
+                disabled={counts>=3}
+                onClick={() => {
+                  if(counts<3) {
+                    navigate("/register")
+                  }
                 }}
               >
                 Register Claims
-              </button>
-            </Link>
+              </Button>
           </div>
         </div>
         <div className="flex items-center gap-x-2">

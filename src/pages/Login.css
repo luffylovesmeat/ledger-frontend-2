@@ -18,7 +18,29 @@
   opacity: 0.75;
   
 }
-
+.buttonRegisterClass 
+  {
+    background: linear-gradient(90deg, #B279F7 0%, #6E51E2 100%);
+    border-radius: 6px;
+    height: 48px;
+    width: 280px;
+    color: white;
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 16px;
+  
+}
+.disableBackground {
+  background:linear-gradient(90deg, rgba(178, 121, 247) 0%, rgb(110, 81, 226) 90%) !important;
+  opacity: 0.7;
+  border-radius: 6px;
+    height: 48px;
+    width: 280px;
+    color: white !important;
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 16px;
+}
 .nav--logo{
   font-family: 'Roboto';
 font-style: normal;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ghost from "../images/ghost.svg";
 import meta from "../images/meta.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate,useNavigate } from "react-router-dom";
 import Web3 from "web3";
 import rawData from "../contracts/identity"
 import axios from "axios";
@@ -14,6 +14,7 @@ const Wallet = () => {
   const [terms, setTerms] = useState(false)
 
   const web3 = new Web3(Web3.givenProvider)
+  let navigate = useNavigate();
 
   const connectWallet = async() =>{
     try {
@@ -54,28 +55,51 @@ const Wallet = () => {
   const generateGhostId = async() =>{
      try {
       console.log("it runs")
-      const account = await web3.eth.getAccounts()
-      var RawContract = rawData
-      var Contract = new web3.eth.Contract(RawContract.abi)
-      var tx = Contract.deploy({
-        data: '0x'+RawContract.data,
-        arguments: [[], [], [], '0x', '0x', '', [], [], []]
-      })
-      .send({ gas: 4612388, from: account[0] })
-      .on('receipt',async function(receipt){
-        console.log(receipt.contractAddress) 
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/saveGhostId`,{
-          address: account[0],
-          ghostId: receipt.contractAddress
+      const walletSwitch = await window?.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{chainId: "0x4"}],
+      }).then(async (walletAdd) => {
+        const account = await web3.eth.getAccounts()
+        var RawContract = rawData
+        var Contract = new web3.eth.Contract(RawContract.abi)
+        var tx = Contract.deploy({
+          data: '0x'+RawContract.data,
+          arguments: [[], [], [], '0x', '0x', '', [], [], []]
         })
-        localStorage.setItem("GhostId", receipt.contractAddress);
+        .send({ gas: 4612388, from: account[0] })
+        .on('receipt',async function(receipt){
+          console.log(receipt.contractAddress) 
+          await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/saveGhostId`,{
+            address: account[0],
+            ghostId: receipt.contractAddress
+          })
+          localStorage.setItem("GhostId", receipt.contractAddress);
+          setLoading(false)
+          navigate('/dashboard')
+      }).
+      catch((err)=>{
+        console.log("err")
         setLoading(false)
-        window.location.href = '/dashboard'
-     }).
-     catch((err)=>{
-       console.log("err")
-       setLoading(false)
-     })
+      })
+      }).catch(async (err) => {
+        console.log(err);
+        await window?.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [
+             {
+                  chainId: "0x4",
+                  chainName: "Rinkeby",
+                  rpcUrls: ["https://speedy-nodes-nyc.moralis.io/362fc40c1ab324c15e79d4da/eth/rinkeby"],
+                  blockExplorerUrls: [
+                    "https://rinkeby.etherscan.io/",
+                  ],
+                  nativeCurrency: {
+                    symbol: "ETH",
+                    decimals: 18,
+                  },
+                }]})
+      });
+        
      } catch (error) {
        setLoading(false)
      }
