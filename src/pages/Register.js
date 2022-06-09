@@ -107,6 +107,7 @@ function Register() {
       const provider = new FacebookAuthProvider();
       signInWithPopup(authentication, provider)
         .then((re) => {
+          console.log(re,"facebook")
           setTotalClaims(data => [...data, facebookType])
           setFbVarified(true)
           // alert("User signed in");
@@ -139,7 +140,12 @@ function Register() {
       claimTypes.push(totalClaims[i])
       scheme.push(totalClaims[i])
       issuerAddress.push(issuer)
-      uri.push('')
+      if(i==0){
+        uri.push(phoneNumber)
+      }
+      if(i==1){
+        uri.push(email)
+      }
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/getSigns`,{
         identityAddress : id,
         claimType: totalClaims[i]
@@ -189,7 +195,7 @@ function Register() {
         >
           Register Claims
         </p>
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col text-center gap-y-4">
           <p
             style={{
               fontFamily: "Roboto",
@@ -204,7 +210,7 @@ function Register() {
             <input
               placeholder="1234567898"
               style={{
-                width: 566,
+                width: 400,
                 height: 40,
                 borderRadius: "10px 0px 0px 10px",
                 paddingLeft: 20,
@@ -247,7 +253,7 @@ function Register() {
             <input
               placeholder="_ _ _ _"
               style={{
-                width: 566,
+                width: 400,
                 height: 40,
                 borderRadius: 10,
                 paddingLeft: 20,
@@ -289,7 +295,7 @@ function Register() {
             <input
               placeholder="johndoe@gmail.com"
               style={{
-                width: 566,
+                width: 400,
                 height: 40,
                 borderRadius: "10px 0px 0px 10px",
                 paddingLeft: 20,
@@ -332,7 +338,7 @@ function Register() {
             <input
               placeholder="_ _ _ _"
               style={{
-                width: 566,
+                width: 400,
                 height: 40,
                 borderRadius: 10,
                 paddingLeft: 20,
@@ -361,7 +367,7 @@ function Register() {
             </button>
           </div>
 
-          <div className="input-register-field">
+          <div className="flex flex-col">
           <p
             style={{
               fontFamily: "Roboto",
@@ -393,7 +399,7 @@ function Register() {
 
           <button
             style={{
-              width: 672,
+              width: 509,
               height: 40,
               background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
               borderRadius: 10,

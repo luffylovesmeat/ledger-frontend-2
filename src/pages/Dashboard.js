@@ -252,12 +252,15 @@ const Dashboard = () => {
               <Tooltip interactive={true}
                 disableFocusListener
                 arrow
+                placement="right-start"
                 componentsProps={{
                   tooltip: {
                     sx: {
                       bgcolor: "rgb(178, 121, 247)",
                       "& .MuiTooltip-arrow": {
                         color: "rgb(178, 121, 247)",
+                        position: "absolute",
+                        top: "0px"
                       },
                     },
                   },
@@ -272,9 +275,7 @@ const Dashboard = () => {
 
                 }>
 
-                <p 
-                c
-                style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
+                <p className="claimsComplete" style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
                   Claims completed: {counts}
                 </p>
               </Tooltip>
