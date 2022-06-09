@@ -23,57 +23,72 @@ import axios from "axios";
 import Web3 from "web3";
 import { Loader } from "../shared/Loader";
 import rawData from "../contracts/identity"
+import Header from "../components/header";
+import { Tooltip } from '@mui/material'
+
 
 const Dashboard = () => {
 
   const [ghostId, setGhostId] = useState('')
   const [counts, setCounts] = useState('')
+  const [phVerified, setPhVerified] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false)
+  const [fbVarified, setFbVarified] = useState(false)
   const web3 = new Web3(Web3.givenProvider)
 
-  const checkClaims = async() =>{
-     try {
-      if(ghostId !== ''){
-        const contract = new web3.eth.Contract(rawData.abi,ghostId)
-      var count =0;
-      for(let i=1;i<=3;i++){
-        const data = await contract.methods.getClaimIdsByType(i).call()
-        if(data.length > 0){
-          count++;
+  const checkClaims = async () => {
+    try {
+      if (ghostId !== '') {
+        const contract = new web3.eth.Contract(rawData.abi, ghostId)
+        var count = 0;
+        for (let i = 1; i <= 3; i++) {
+          const data = await contract.methods.getClaimIdsByType(i).call()
+          if (data.length > 0) {
+            count++;
+            if(i==1){
+              setPhVerified(true)
+            }
+            if(i==2){
+              setEmailVerified(true)
+            }
+            if(i==3){
+              setFbVarified(true)
+            }
+          }
         }
+        setCounts(count)
       }
-      setCounts(count)
-      }
-     } catch (error) {
-       console.log(error)
-     }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const getGhostId = async() =>{
+  const getGhostId = async () => {
     const account = await web3.eth.getAccounts()
     const id = localStorage.getItem("GhostId");
-    if(id){
+    if (id) {
       setGhostId(id)
     }
-    else{
+    else {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
-      {
-        address: account[0]
-      })
-      .then((res)=>{
-        console.log(res,"res")
-        localStorage.setItem("GhostId" , res.data.ghostId)
-        setGhostId(res.data.ghostId)
-      })
+        {
+          address: account[0]
+        })
+        .then((res) => {
+          console.log(res, "res")
+          localStorage.setItem("GhostId", res.data.ghostId)
+          setGhostId(res.data.ghostId)
+        })
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getGhostId()
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     checkClaims()
-  },[ghostId])
+  }, [ghostId])
   return (
     <div
       style={{ backgroundColor: "#F8F8FE", height: "1400px" }}
@@ -185,71 +200,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="right w-4/5 pl-5">
-        <div className="flex pt-9 items-center pb-10 gap-x-10">
-          <p
-            style={{
-              fontFamily: "Roboto",
-              fontWeight: 500,
-              fontSize: 25,
-              color: "#30364D",
-            }}
-          >
-            Dashboard
-          </p>
-          <div className="flex">
-            <div
-              style={{
-                width: 38,
-                height: 54,
-                borderRadius: "10px 0px 0px 10px",
-              }}
-              className="flex justify-center items-center bg-white"
-            >
-              <img src={search} />
-            </div>
-            <input
-              style={{
-                width: 500,
-                height: 54,
-                borderRadius: "0px 10px 10px 0px",
-              }}
-              placeholder="Search..."
-            />
-          </div>
-          <div className="flex items-center">
-            <img src={logo} width={44} height={44} />
-            <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17 }}>
-              $ 0.00156
-            </p>
-          </div>
-          <div className="flex items-center">
-            <div
-              className="bg-white flex justify-center items-center"
-              style={{ borderRadius: "50%", width: 60, height: 60 }}
-            >
-              <img src={wallet} width={32.36} height={30.2} />
-            </div>
-            <div
-              className="bg-white"
-              style={{
-                width: 123,
-                height: 26,
-                borderRadius: "0px 11.5px 11.5px 0px",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "Roboto",
-                  fontWeight: 600,
-                  fontSize: 17,
-                  paddingLeft: 22,
-                }}
-              >
-                ox...edf8
-              </p>
-            </div>
-          </div>
-        </div>
+        <Header />
         <div className="flex items-center justify-between mr-28 pb-7">
           <div
             style={{
@@ -298,9 +249,36 @@ const Dashboard = () => {
               <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
                 ID: {ghostId}
               </p>
-              <p style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
-                Claims completed: {counts}
-              </p>
+              <Tooltip interactive={true}
+                disableFocusListener
+                arrow
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: "rgb(178, 121, 247)",
+                      "& .MuiTooltip-arrow": {
+                        color: "rgb(178, 121, 247)",
+                      },
+                    },
+                  },
+                }}
+                title={
+
+                  <div className="flex flex-col">
+                    <span>{phVerified == true? "Ph No: verified":""}</span>
+                    <span>{emailVerified == true? "Email: verified":""}</span>
+                    <span>{fbVarified == true? "Fb: verified":""}</span>
+                  </div>
+
+                }>
+
+                <p 
+                c
+                style={{ fontFamily: "Inter", fontWeight: 400, fontSize: 14 }}>
+                  Claims completed: {counts}
+                </p>
+              </Tooltip>
+
             </div>
             <Link to="/register">
               <button

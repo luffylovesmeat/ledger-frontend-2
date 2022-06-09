@@ -5,3 +5,30 @@
   display: flex;
   flex-direction: row;
 }
+.disconnectWallet {
+  background: linear-gradient(90deg, rgb(178, 121, 247) 0%, rgb(110, 81, 226) 100%);
+  border-radius: 10px;
+  color: white;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 12px;
+  padding:6px 12px
+}
+.diabled--button{
+  opacity: 0.75;
+  
+}
+
+.nav--logo{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 29px;
+
+color: #30364D;
+}
+
+.claimsComplete{
+  width: fit-content;
+}

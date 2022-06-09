@@ -26,3 +26,7 @@
 *:focus {
   outline: none;
 }
+
+html,body{
+  background:  #F8F8FE;
+}

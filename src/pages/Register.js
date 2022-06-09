@@ -1,8 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
-import search from "../images/search.svg";
-import logo from "../images/logo.svg";
-import wallet from "../images/wallet.svg";
 import { authentication } from "../firebase.config";
 import {
   RecaptchaVerifier,
@@ -18,6 +15,8 @@ import Web3 from "web3";
 import {issuer} from "../config"
 import "./Login.css"
 import { Loader } from "../shared/Loader";
+import Header from "../components/header";
+
 
 function Register() {
   
@@ -182,68 +181,7 @@ function Register() {
     <>
            {loading && <Loader />}
     <div className="register-page" >
-      <div className="container flex pt-4 items-center justify-center pb-4 gap-x-16 mx-auto px-8">
-        <div className="flex items-center">
-          <img src={logo} width={35} height={35} />
-          <p style={{ fontFamily: "Roboto", fontSize: 20, fontWeight: 700 }}>
-            LedgerScore
-          </p>
-        </div>
-        <div className="flex w-full">
-          <div
-            style={{
-              width: 38,
-              height: 54,
-              borderRadius: "10px 0px 0px 10px",
-            }}
-            className="flex justify-center items-center bg-white"
-          >
-            <img src={search} />
-          </div>
-          <input
-          className="min-w-[40px] w-full max-w-[500px]"
-            style={{
-              height: 54,
-              borderRadius: "0px 10px 10px 0px",
-              maxWidth:"500px"
-            }}
-            placeholder="Search..."
-          />
-        </div>
-        <div className="flex items-center">
-          <img src={logo} width={44} height={44} />
-          <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17,width: 110 }}>
-            $ 0.00156
-          </p>
-        </div>
-        <div className="flex items-center">
-          <div
-            className="bg-white flex justify-center items-center"
-            style={{ borderRadius: "50%", width: 60, height: 60 }}
-          >
-            <img src={wallet} width={32.36} height={30.2} />
-          </div>
-          <div
-            className="bg-white"
-            style={{
-              width: 123,
-              height: 26,
-              borderRadius: "0px 11.5px 11.5px 0px",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "Roboto",
-                fontWeight: 600,
-                fontSize: 17,
-                paddingLeft: 22,
-              }}
-            >
-              ox...edf8
-            </p>
-          </div>
-        </div>
-      </div>
+      <Header/>
       <div className="flex flex-col items-center gap-y-4 w-full lg:w-3/5 m-auto">
         <p
           style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 20 }}
@@ -256,7 +194,7 @@ function Register() {
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 15,
+              fontSize: 18,
               color: "#30364D",
             }}
           >
@@ -278,6 +216,7 @@ function Register() {
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <button
+              className={phVerified == true? "disabled:cursor-not-allowed diabled--button":""}
               disabled={phVerified == true? true:false}
               style={{
                 width: 109,
@@ -287,18 +226,18 @@ function Register() {
                 borderRadius: "0px 10px 10px 0px",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 23,
+                fontSize: 17,
               }}
               onClick={requestOtp}
             >
-              {resendPhOtp == false? "Send OTP": "Re Send"}
+              {resendPhOtp == false? "Send OTP": "Resend OTP"}
             </button>
           </div>
           <p
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
-              fontSize: 15,
+              fontSize: 18,
               color: "#30364D",
             }}
           >
@@ -319,6 +258,7 @@ function Register() {
               onChange={(e)=>setOtpPhoneNo(e.target.value)}
             />
             <button
+              className={phVerified == true? "disabled:cursor-not-allowed diabled--button":""}
               disabled={phVerified == true? true:false}
               style={{
                 width: 109,
@@ -328,7 +268,7 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 23,
+                fontSize: 17,
               }}
               onClick={verifyOtp}
             >
@@ -361,6 +301,7 @@ function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
+              className={emailVerified == true? "disabled:cursor-not-allowed diabled--button":""}
               disabled={emailVerified == true? true:false}
               style={{
                 width: 109,
@@ -370,11 +311,11 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 23,
+                fontSize: 17,
               }}
               onClick={sendOtp}
             >
-              {resendEmailOtp == false? "Send OTP": "Re Send"}
+              {resendEmailOtp == false? "Send OTP": "Resend OTP"}
             </button>
           </div>
           <p
@@ -402,6 +343,7 @@ function Register() {
               onChange={(e)=>setOtp(e.target.value)}
             />
             <button
+              className={emailVerified == true? "disabled:cursor-not-allowed diabled--button":""}
               disabled={emailVerified == true? true:false}
               style={{
                 width: 109,
@@ -411,13 +353,15 @@ function Register() {
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 23,
+                fontSize: 17,
               }}
               onClick={verifyEmailOtp}
             >
               Verify
             </button>
           </div>
+
+          <div className="input-register-field">
           <p
             style={{
               fontFamily: "Roboto",
@@ -428,18 +372,18 @@ function Register() {
           >
             Facebook Verification
           </p>
-          <div className="input-register-field">
             <button
+              className={fbVarified == true? "disabled:cursor-not-allowed diabled--button":""}
               disabled={fbVarified == true? true:false}
               style={{
-                width: 672,
+                width: 200,
                 height: 40,
                 background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
                 borderRadius: "10px 10px 10px 10px",
                 color: "white",
                 fontFamily: "Roboto",
                 fontWeight: 500,
-                fontSize: 23,
+                fontSize: 17,
               }}
               onClick={signInWithFb}
             >
