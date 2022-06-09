@@ -32,7 +32,8 @@ const Dashboard = () => {
 
   const checkClaims = async() =>{
      try {
-      const contract = new web3.eth.Contract(rawData.abi,ghostId)
+      if(ghostId !== ''){
+        const contract = new web3.eth.Contract(rawData.abi,ghostId)
       var count =0;
       for(let i=1;i<=3;i++){
         const data = await contract.methods.getClaimIdsByType(i).call()
@@ -41,6 +42,7 @@ const Dashboard = () => {
         }
       }
       setCounts(count)
+      }
      } catch (error) {
        console.log(error)
      }

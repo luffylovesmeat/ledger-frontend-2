@@ -26,6 +26,11 @@ function Register() {
   const [otp, setOtp] = useState("");
   const [otpPhoneNo, setOtpPhoneNo] = useState("")
   const [loading, setLoading] = useState(false)
+  const [resendPhOtp, setResendPhOtp] = useState(false)
+  const [resendEmailOtp, setResendEmailOtp] = useState(false)
+  const [phVerified, setPhVerified] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false)
+  const [fbVarified, setFbVarified] = useState(false)
 
   const signerIdentity = EthCrypto.createIdentity();
   const web3 = new Web3(Web3.givenProvider)
@@ -34,6 +39,7 @@ function Register() {
 
   const requestOtp = (e) => {
     if (phoneNumber.length >= 10) {
+      setResendPhOtp(true)
       window.recaptchaverifier = new RecaptchaVerifier(
         "recaptcha-container",
         {
@@ -60,6 +66,7 @@ function Register() {
         .then((result) => {
           const user = result.user;
           setTotalClaims(data => [...data, phoneNotype])
+          setPhVerified(true)
         })
         .catch((error) => {
           console.log(error);
@@ -68,6 +75,7 @@ function Register() {
   };
 
   const sendOtp = async() =>{
+    setResendEmailOtp(true)
     await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/emailotp`,
      {
        email
@@ -86,6 +94,7 @@ function Register() {
        ).then((res)=>{
         if(res.data.isValid == true){
           setTotalClaims(data => [...data, emailType])
+          setEmailVerified(true)
         }
         else{
           console.log("can not verify user")
@@ -100,7 +109,8 @@ function Register() {
       signInWithPopup(authentication, provider)
         .then((re) => {
           setTotalClaims(data => [...data, facebookType])
-          alert("User signed in");
+          setFbVarified(true)
+          // alert("User signed in");
           setLoading(false)
         })
         .catch((error) => {
@@ -202,7 +212,7 @@ function Register() {
         </div>
         <div className="flex items-center">
           <img src={logo} width={44} height={44} />
-          <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17 }}>
+          <p style={{ fontFamily: "Roboto", fontWeight: 600, fontSize: 17,width: 110 }}>
             $ 0.00156
           </p>
         </div>
@@ -268,6 +278,7 @@ function Register() {
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
             <button
+              disabled={phVerified == true? true:false}
               style={{
                 width: 109,
                 height: 40,
@@ -280,7 +291,7 @@ function Register() {
               }}
               onClick={requestOtp}
             >
-              Send OTP
+              {resendPhOtp == false? "Send OTP": "Re Send"}
             </button>
           </div>
           <p
@@ -308,6 +319,7 @@ function Register() {
               onChange={(e)=>setOtpPhoneNo(e.target.value)}
             />
             <button
+              disabled={phVerified == true? true:false}
               style={{
                 width: 109,
                 height: 40,
@@ -349,6 +361,7 @@ function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
+              disabled={emailVerified == true? true:false}
               style={{
                 width: 109,
                 height: 40,
@@ -361,7 +374,7 @@ function Register() {
               }}
               onClick={sendOtp}
             >
-              Send OTP
+              {resendEmailOtp == false? "Send OTP": "Re Send"}
             </button>
           </div>
           <p
@@ -389,6 +402,7 @@ function Register() {
               onChange={(e)=>setOtp(e.target.value)}
             />
             <button
+              disabled={emailVerified == true? true:false}
               style={{
                 width: 109,
                 height: 40,
@@ -416,6 +430,7 @@ function Register() {
           </p>
           <div className="input-register-field">
             <button
+              disabled={fbVarified == true? true:false}
               style={{
                 width: 672,
                 height: 40,
