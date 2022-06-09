@@ -7,63 +7,95 @@ import { Link } from "react-router-dom";
 import Web3 from "web3";
 import axios from "axios";
 
+// Custom Hooks
+import useResponsive from "../customhooks/useResponsive";
+
 const Login = () => {
-  const [address, setAddress] = useState('')
-  const web3 = new Web3(Web3.givenProvider)
-  const fetchAddress = async() =>{
-  await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async(res)=>{
-    const addresses = await web3.eth.getAccounts()
-    setAddress(addresses[0])
-  });
-}
+  const [address, setAddress] = useState("");
+  const width = useResponsive();
+  const web3 = new Web3(Web3.givenProvider);
+  const fetchAddress = async () => {
+    await window.ethereum
+      .request({ method: "eth_requestAccounts" })
+      .then(async (res) => {
+        const addresses = await web3.eth.getAccounts();
+        setAddress(addresses[0]);
+      });
+  };
 
-const checkIfAvailable = async () =>{
-  var addresses;
-  await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async(res)=>{
-    addresses = await web3.eth.getAccounts()
-    setAddress(addresses[0])
-  }).then(async(res)=>{
-    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
-      {
-        address: addresses[0]
+  const checkIfAvailable = async () => {
+    var addresses;
+    await window.ethereum
+      .request({ method: "eth_requestAccounts" })
+      .then(async (res) => {
+        addresses = await web3.eth.getAccounts();
+        setAddress(addresses[0]);
       })
-      .then((res)=>{
-        console.log(res,"res")
-        if(res.data.ghostId){
-          localStorage.setItem("GhostId" , res.data.ghostId)
-          window.location.href = '/dashboard'
-        }
-        else{
-          window.location.href = '/wallet'
-        }
+      .then(async (res) => {
+        await axios
+          .post(`${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`, {
+            address: addresses[0],
+          })
+          .then((res) => {
+            console.log(res, "res");
+            if (res.data.ghostId) {
+              localStorage.setItem("GhostId", res.data.ghostId);
+              window.location.href = "/dashboard";
+            } else {
+              window.location.href = "/wallet";
+            }
+          });
+      });
+  };
 
-      })
-  })
-}
-
-useEffect(()=>{
- checkIfAvailable()
-},[])
-
+  useEffect(() => {
+    checkIfAvailable();
+  }, []);
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 30,
-        paddingBottom: 30,
-        backgroundColor: "#F8F8FE",
-        height: "100vh",
-      }}
+      style={
+        width > 778
+          ? {
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: 30,
+              paddingBottom: 30,
+              backgroundColor: "#F8F8FE",
+              height: "100vh",
+            }
+          : {
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: 30,
+              paddingBottom: 30,
+              backgroundColor: "#F8F8FE",
+              height: "100vh",
+              width: "80%",
+              margin: "0 auto",
+            }
+      }
     >
       <div
-        style={{
-          height: 600,
-          width: 866,
-          border: "1px solid white",
-          backgroundColor: "white",
-        }}
+        style={
+          width > 778
+            ? {
+                height: 600,
+                width: "100%",
+                border: "1px solid white",
+                backgroundColor: "white",
+              }
+            : {
+                height: 600,
+                width: "100%",
+                border: "1px solid white",
+                backgroundColor: "white",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }
+        }
         className="flex flex-col gap-y-5"
       >
         <div
@@ -110,7 +142,7 @@ useEffect(()=>{
               fontWeight: 400,
               fontSize: 23,
             }}
-            onClick={()=> fetchAddress()}
+            onClick={() => fetchAddress()}
           >
             Fetch Ghost ID
           </button>
