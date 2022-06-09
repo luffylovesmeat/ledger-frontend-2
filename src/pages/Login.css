@@ -24,7 +24,7 @@
     border-radius: 6px;
     height: 48px;
     width: 280px;
-    color: white;
+    color: white !important;
     font-family: "Inter";
     font-weight: 500;
     font-size: 16px;
