@@ -100,7 +100,7 @@ const Header = () => {
                         className="disconnectWallet"
                         onClick={() => {
                             localStorage.clear();
-                            window.location.reload();
+                            // window.location.reload();
                             navigate("/")
                         }}
                     >

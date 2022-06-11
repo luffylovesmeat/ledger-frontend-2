@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authentication } from "../firebase.config";
 import {
   RecaptchaVerifier,
@@ -38,8 +38,10 @@ function Register() {
   const [otpLoader,setOtpLoader] = useState(false);
   const [emailLoader,setEmailLoader] = useState(false);
   const [emailOtpLoader,setEmailOtpLoader] = useState(false);
+  const [walletAddress,setWalletAddress] = useState({});
+  const [walletAddressAmount,setWalletAddressAmount] = useState(1);
 
-
+  const [verification,setVerification] = useState([])
 
   const web3 = new Web3(Web3.givenProvider)
 
@@ -154,6 +156,10 @@ function Register() {
 
   const registerClaims = async()=>{
    try {
+     if(true) {
+       console.log(walletAddress);
+       return;
+     }
     setLoading(true)
     const id = localStorage.getItem("GhostId");
     const accounts = await web3.eth.getAccounts()
@@ -191,12 +197,17 @@ function Register() {
       })
     }
 
-    console.log(claimTypes,
-      scheme,
-      issuerAddress,
-      sign,
-      data,
-      uri)
+    const verifyWalletAddress = async () => {
+      try {
+        const connectWallet = await window.ethereumrequest({
+          method: "request_accounts",
+      });
+      console.log(connectWallet)
+      }
+      catch(err) {
+        console.log(err);
+      }
+    }
 
     await identityContract.methods.addMultipleClaim(
           claimTypes,
@@ -218,6 +229,34 @@ function Register() {
    }
   }
 
+  const verifyWalletAddress = async (idx) => {
+    try {
+      const getAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await web3.eth.getAccounts();
+      let arr = verification;
+      console.log("accounts ",accounts);
+      console.log("wallet",walletAddress);
+      if(!accounts.includes(walletAddress[idx])) {
+        console.log("does not match")
+      }
+      else {
+        console.log("Match...",verification[idx])
+        arr[idx] = walletAddress[idx]; 
+        console.log(arr[idx] , walletAddress[idx])
+        setVerification([...verification,arr[idx]])
+        
+        console.log("arr ",arr);
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+
+  useEffect(() => {
+    console.log("verification ",verification);
+  },[verification])
   return (
     <>
            {loading && <Loader />}
@@ -437,6 +476,60 @@ function Register() {
             </LoadingButton>
           </div>
 
+          {/* wallet address add */}
+          <p
+            style={{
+              fontFamily: "Roboto",
+              fontWeight: 600,
+              fontSize: 15,
+              color: "#30364D",
+            }}
+          >
+            Wallet Address
+          </p>
+          {
+            [...Array(walletAddressAmount)].map((item,idx) => {
+              return (
+                <div className="input-register-field">
+                  <input
+                    placeholder="0x..."
+                    style={{
+                      width: 400,
+                      height: 40,
+                      borderRadius: 10,
+                      paddingLeft: 20,
+                      fontFamily: "Roboto",
+                      fontWeight: 400,
+                      fontSize: 15,
+                    }}
+                    name={"walletAddress"}
+                    value={walletAddress[idx]}
+                    onChange={(event) => setWalletAddress({...walletAddress, [idx]:event.target.value })}
+                  />
+                  <LoadingButton
+                    className={verification.includes(walletAddress[idx]) ? "disabled:cursor-not-allowed diabled--LoadingButton opacity-75":""}
+                    disabled={verification.includes(walletAddress[idx]) ? true:false}
+                    // loading={emailOtpLoader}
+                    style={{
+                      width: 109,
+                      height: 40,
+                      background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
+                      borderRadius: "0px 10px 10px 0px",
+                      color: "white",
+                      fontFamily: "Roboto",
+                      fontWeight: 500,
+                      fontSize: 15,
+                    }}
+                    onClick={() => verifyWalletAddress(idx)}
+                  >
+                    {verification.includes(walletAddress[idx]) ? "Verified" : "Verify"}
+                  </LoadingButton>
+                </div>
+              )
+            })
+          }
+          <div className="flex items-center justify-center text-lg font-bold cursor-pointer" onClick={() => {setWalletAddressAmount(walletAddressAmount+1)}}>+Add More Wallet</div>
+
           <LoadingButton
             style={{
               width: 509,
@@ -454,6 +547,8 @@ function Register() {
           >
             { "Register Claims"}
           </LoadingButton>
+
+          
         </div>
       </div>
       <div id="recaptcha-container"></div>

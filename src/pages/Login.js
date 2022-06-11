@@ -48,15 +48,20 @@ const Login = () => {
                             )
                             .then((res) => {
                                 console.log(res, "res");
-                                if (res.data.ghostId) {
+                                if (res.data?.ghostId) {
                                     localStorage.setItem(
                                         "GhostId",
                                         res.data.ghostId
                                     );
+                                    console.log("res 1",res.data?.ghostId);
                                     navigate("/dashboard");
                                 } else {
                                     navigate("/wallet");
+                                    console.log("res 2",);
                                 }
+                            })
+                            .catch((err) => {
+                                console.log(err.response);
                             });
                     })
                     .catch(async (err) => {

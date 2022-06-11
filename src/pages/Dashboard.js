@@ -66,6 +66,7 @@ const Dashboard = () => {
   const getGhostId = async () => {
     const account = await web3.eth.getAccounts()
     const id = localStorage.getItem("GhostId");
+    console.log("id ",id);
     if (id) {
       setGhostId(id)
     }
@@ -75,9 +76,15 @@ const Dashboard = () => {
           address: account[0]
         })
         .then((res) => {
-          console.log(res, "res")
-          localStorage.setItem("GhostId", res.data.ghostId)
-          setGhostId(res.data.ghostId)
+          console.log("AAA ",res)
+          if(res.data?.ghostId) {
+            localStorage.setItem("GhostId", res.data.ghostId)
+            console.log("BBB ",res)
+            setGhostId(res.data.ghostId)
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         })
     }
   }
