@@ -18,6 +18,7 @@ import { Loader } from "../shared/Loader";
 import Header from "../components/header";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Navigate, useNavigate } from "react-router-dom";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function Register() {
   let navigate = useNavigate();
@@ -156,10 +157,6 @@ function Register() {
 
   const registerClaims = async()=>{
    try {
-     if(true) {
-       console.log(walletAddress);
-       return;
-     }
     setLoading(true)
     const id = localStorage.getItem("GhostId");
     const accounts = await web3.eth.getAccounts()
@@ -184,6 +181,7 @@ function Register() {
       if(i==2) {
         uri.push(fbEmail)
       }
+
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/getSigns`,{
         identityAddress : id,
         claimType: totalClaims[i]
@@ -191,23 +189,37 @@ function Register() {
          const split = res.data.data.split('$')
          sign.push(split[0])
          data.push(split[1])
-         navigate('/dashboard')
+        //  navigate('/dashboard')
       }).catch((err) => {
         console.log(err);
       })
     }
 
-    const verifyWalletAddress = async () => {
-      try {
-        const connectWallet = await window.ethereumrequest({
-          method: "request_accounts",
-      });
-      console.log(connectWallet)
-      }
-      catch(err) {
+    for(var key in walletAddress){
+      console.log(key,typeof key,"dfhdsjhf")
+      claimTypes.push(Number(key)+4)
+      scheme.push(Number(key)+4)
+      issuerAddress.push(issuer)
+      uri.push(walletAddress[key])
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/getSigns`,{
+        identityAddress : id,
+        claimType: Number(key)+4
+      }).then((res)=>{
+         const split = res.data.data.split('$')
+         sign.push(split[0])
+         data.push(split[1])
+        //  navigate('/dashboard')
+      }).catch((err) => {
         console.log(err);
-      }
+      })
     }
+    console.log( claimTypes,
+      scheme,
+      issuerAddress,
+      sign,
+      data,
+      uri,
+      "datatata")
 
     await identityContract.methods.addMultipleClaim(
           claimTypes,
@@ -219,6 +231,7 @@ function Register() {
     ).send({from:accounts[0]})
     .then((res)=>{
       setLoading(false)
+      navigate('/dashboard')
     })
     .catch((err)=>{
       setLoading(false)
@@ -244,7 +257,6 @@ function Register() {
         arr[idx] = walletAddress[idx]; 
         console.log(arr[idx] , walletAddress[idx])
         setVerification([...verification,arr[idx]])
-        
         console.log("arr ",arr);
       }
     }
@@ -477,16 +489,21 @@ function Register() {
           </div>
 
           {/* wallet address add */}
+          <div className="flex flex-row">
           <p
             style={{
               fontFamily: "Roboto",
               fontWeight: 600,
               fontSize: 15,
               color: "#30364D",
+              marginRight: 10
             }}
           >
             Wallet Address
           </p>
+          
+          <AddCircleOutlineIcon className="cursor-pointer" onClick={() => {setWalletAddressAmount(walletAddressAmount+1)}}/>
+          </div>
           {
             [...Array(walletAddressAmount)].map((item,idx) => {
               return (
@@ -528,7 +545,6 @@ function Register() {
               )
             })
           }
-          <div className="flex items-center justify-center text-lg font-bold cursor-pointer" onClick={() => {setWalletAddressAmount(walletAddressAmount+1)}}>+Add More Wallet</div>
 
           <LoadingButton
             style={{

@@ -41,7 +41,7 @@ const Dashboard = () => {
       if (ghostId !== '') {
         const contract = new web3.eth.Contract(rawData.abi, ghostId)
         var count = 0;
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 5; i++) {
           const data = await contract.methods.getClaimIdsByType(i).call()
           if (data.length > 0) {
             count++;

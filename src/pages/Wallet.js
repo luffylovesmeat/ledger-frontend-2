@@ -161,7 +161,7 @@ const Wallet = () => {
                         }}
                         onClick={() => handleClick()}
                     >
-                        Connect your Wallet
+                        Create Ghost Id
                     </button>
                     {/* </Link> */}
                     <div
