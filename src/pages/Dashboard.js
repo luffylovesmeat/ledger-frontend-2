@@ -284,12 +284,13 @@ const Dashboard = () => {
 
             </div>
               <Button
-                className={counts>=3 ? "disableBackground":"buttonRegisterClass"}
-                disabled={counts>=3}
+                // className={counts>=3 ? "disableBackground":"buttonRegisterClass"}
+                className={"buttonRegisterClass"}
+                // disabled={counts>=3}
                 onClick={() => {
-                  if(counts<3) {
+                  
                     navigate("/register")
-                  }
+
                 }}
               >
                 Register Claims
