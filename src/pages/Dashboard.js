@@ -34,6 +34,8 @@ const Dashboard = () => {
   const [phVerified, setPhVerified] = useState(false)
   const [emailVerified, setEmailVerified] = useState(false)
   const [fbVarified, setFbVarified] = useState(false)
+  const [kyc,setKyc] = useState(false)
+  const [multiWallet,setMultiWallet] = useState("")
   const web3 = new Web3(Web3.givenProvider)
 
   const checkClaims = async () => {
@@ -54,8 +56,15 @@ const Dashboard = () => {
             if(i==3){
               setFbVarified(true)
             }
+            if(i==4) {
+              setKyc(true)
+            }
+            if(i==5) {
+              setMultiWallet(true)
+            }
           }
         }
+        console.log(count,"count")
         setCounts(count)
       }
     } catch (error) {
@@ -273,6 +282,9 @@ const Dashboard = () => {
                     <span>{phVerified == true? "Ph No: verified":""}</span>
                     <span>{emailVerified == true? "Email: verified":""}</span>
                     <span>{fbVarified == true? "Fb: verified":""}</span>
+                    <span>{kyc == true? "Kyc: verified":""}</span>
+                    <span>{multiWallet == true? "multiWallet: wallet added":""}</span>
+
                   </div>
 
                 }>
