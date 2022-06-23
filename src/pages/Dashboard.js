@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, NavLink } from "react-router-dom";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
@@ -124,6 +124,11 @@ const Dashboard = () => {
               fontFamily: "Inter",
               fontWeight: 500,
               fontSize: 19,
+              width: "200px",
+              height: "45px",
+              paddingTop: "8px",
+              paddingLeft: "8px",
+              borderRadius: "5px",
             }}
           >
             Dashboard
@@ -134,9 +139,14 @@ const Dashboard = () => {
               fontFamily: "Inter",
               fontWeight: 500,
               fontSize: 19,
+              width: "200px",
+              height: "45px",
+              paddingTop: "8px",
+              paddingLeft: "8px",
+              borderRadius: "5px",
             }}
           >
-            Ghost ID
+            <NavLink to="/ghostid">Ghost ID</NavLink>
           </p>
           <p
             style={{
@@ -144,6 +154,11 @@ const Dashboard = () => {
               fontFamily: "Inter",
               fontWeight: 500,
               fontSize: 19,
+              width: "200px",
+              height: "45px",
+              paddingTop: "8px",
+              paddingLeft: "8px",
+              borderRadius: "5px",
             }}
           >
             Card

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Open+Sans&family=Poppins:wght@300;500&family=Roboto:wght@100;300;400;500;900&family=Rubik:wght@900&display=swap');
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    position: absolute;
+    width: 1030px;
+    height: 677px;
+    left: 330px;
+    top: 200px;
+    
+}
+
+.main .claimBox{
+    display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px;
+        
+        position: absolute;
+        width: 1030px;
+        height: 33px;
+        background-color: rgb(255, 255, 255);
+}
+
+.main .claimBox .heading{
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px; 
+    line-height: 28.13;
+}
+
+.main .claimBox .ghostId {
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #969696;
+    margin-left: 240px;
+}
+
+
+.main .claimBox .registerClaim button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 17px;
+    gap: 10px;
+    border: none;
+    color: white;
+    width: 161px;
+    height: 33px;
+    background: linear-gradient(90deg, #B279F7 0%, #6E51E2 100%);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.main .claimList{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 677px;
+    width: 1030px;
+    margin-top: 80px;
+}
+
+.main .claimList .listHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 1030px;
+    height: 65px;
+    background-color: #FFFFFF;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #969696;
+    border-bottom: 2px solid rgb(240, 240, 240);
+    
+}
+
+.main .claimList .listHead .claimHead{
+    margin-left: 20px;
+}
+.main .claimList .listHead .valueHead {
+    margin-right: 20px;
+}
+
+.main .claimList .item{
+    width: 1030px;
+}
+
+.main .claimList .item .slot{
+    width: 1030px;
+    height: 65px;
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.main .claimList .item .slot .claim {
+    
+    height: 100%;
+    width: 40%;
+    /* border: 5px solid red; */
+    border-bottom: 2px solid rgb(240, 240, 240);
+}
+
+.main .claimList .item .slot .value {
+    
+    height: 100%;
+    width: 60%;
+    
+}
+
+.main .claimList .item .slot:nth-child(odd) {
+    background-color: rgb(248, 248, 254);
+}
+
+.main .claimList .item .slot:nth-child(even) {
+    background-color: white;
+}

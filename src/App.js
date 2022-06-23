@@ -4,8 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Wallet from "./pages/Wallet";
 import Dashboard from "./pages/Dashboard";
+import GhostID from "./pages/GhostID";
 
-function App() {
+
+function App()
+{
   return (
     <>
       <BrowserRouter>
@@ -14,6 +17,7 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/ghostid" element = {<GhostID/>} />
         </Routes>
       </BrowserRouter>
     </>
