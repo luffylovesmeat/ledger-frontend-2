@@ -23,7 +23,7 @@
         position: absolute;
         width: 1030px;
         height: 33px;
-        background-color: rgb(255, 255, 255);
+        /* background-color: rgb(255, 255, 255); */
 }
 
 .main .claimBox .heading{

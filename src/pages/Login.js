@@ -6,6 +6,7 @@ import ghost from "../images/ghost.svg";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Web3 from "web3";
 import axios from "axios";
+import { Loader } from "../shared/Loader";
 
 // Custom Hooks
 import useResponsive from "../customhooks/useResponsive";
@@ -13,6 +14,7 @@ import useResponsive from "../customhooks/useResponsive";
 const Login = () => {
   let navigate = useNavigate();
     const [address, setAddress] = useState("");
+    const [loading, setLoading] = useState(false);
     const width = useResponsive();
     const web3 = new Web3(Web3.givenProvider);
     const fetchAddress = async () => {
@@ -25,6 +27,7 @@ const Login = () => {
     };
 
     const checkIfAvailable = async () => {
+        try {
         var addresses;
         await window.ethereum
             .request({ method: "eth_requestAccounts" })
@@ -39,6 +42,7 @@ const Login = () => {
                         params: [{ chainId: "0x4" }],
                     })
                     .then(async (wre) => {
+                        setLoading(true)
                         await axios
                             .post(
                                 `${process.env.REACT_APP_BACKEND_URL}/id/getGhostId`,
@@ -59,9 +63,11 @@ const Login = () => {
                                     navigate("/wallet");
                                     console.log("res 2",);
                                 }
+                                setLoading(false)
                             })
                             .catch((err) => {
                                 console.log(err.response);
+                                setLoading(false)
                             });
                     })
                     .catch(async (err) => {
@@ -85,16 +91,23 @@ const Login = () => {
                                 },
                             ],
                         });
+                        setLoading(false)
                     });
             });
+        } catch (error) {
+            // setLoading(false)
+        }
     };
 
     // Variable
     const ifPhone = width < 778;
     useEffect(() => {
         checkIfAvailable();
+        
     }, []);
     return (
+        <>
+        {loading && <Loader />}
         <div
             style={
                 !ifPhone
@@ -370,6 +383,8 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </>
+
     );
 };
 

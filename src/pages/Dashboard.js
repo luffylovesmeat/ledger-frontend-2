@@ -124,11 +124,13 @@ const Dashboard = () => {
               fontFamily: "Inter",
               fontWeight: 500,
               fontSize: 19,
+              background: "linear-gradient(90deg, #B279F7 0%, #6E51E2 100%)",
               width: "200px",
               height: "45px",
               paddingTop: "8px",
               paddingLeft: "8px",
               borderRadius: "5px",
+              color:"white"
             }}
           >
             Dashboard
@@ -146,7 +148,7 @@ const Dashboard = () => {
               borderRadius: "5px",
             }}
           >
-            <NavLink to="/ghostid">Ghost ID</NavLink>
+            Ghost ID
           </p>
           <p
             style={{

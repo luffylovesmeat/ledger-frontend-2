@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate ,NavLink} from "react-router-dom";
 import search from "../images/search.svg";
 import logo from "../images/logo.svg";
 import wallet from "../images/wallet.svg";
@@ -133,7 +133,7 @@ const Dashboard = () => {
               
             }}
           >
-            Dashboard
+          <NavLink to="/dashboard">Dashboard</NavLink>
           </p>
           <p
             style={{

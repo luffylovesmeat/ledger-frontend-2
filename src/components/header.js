@@ -28,24 +28,27 @@ const Header = () => {
     }, []);
     return (
         <div className="container flex pt-4 items-center justify-center pb-4 gap-x-16 mx-auto px-8">
-            {location.pathname !== "/dashboard" ? (
-                <Link to="/dashboard">
-                    <div className="flex items-center">
-                        <img src={logo} width={35} height={35} />
-
-                        <p
-                            style={{
-                                fontFamily: "Roboto",
-                                fontSize: 20,
-                                fontWeight: 700,
-                            }}
-                        >
-                            LedgerScore
-                        </p>
-                    </div>
-                </Link>
-            ) : (
+            {location.pathname == "/dashboard" ? (
                 <p className="nav--logo">Dashboard</p>
+
+            ) : (
+                location.pathname == "/ghostid" ? (
+                    <p className="nav--logo">Ghost ID</p>
+            ) : (
+                <div className="flex items-center">
+                <img src={logo} width={35} height={35} />
+
+                <p
+                    style={{
+                        fontFamily: "Roboto",
+                        fontSize: 20,
+                        fontWeight: 700,
+                    }}
+                >
+                    LedgerScore
+                </p>
+            </div>
+            )
             )}
             <div className="flex w-full">
                 <div
