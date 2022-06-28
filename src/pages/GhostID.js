@@ -108,7 +108,7 @@ const Dashboard = () => {
   }, [ghostId])
   return (
     <div
-      style={{ backgroundColor: "#F8F8FE", height: "1400px" }}
+      style={{ backgroundColor: "#F8F8FE" }}
       className="flex"
     >
       <div className="left w-1/5 bg-white flex flex-col items-center pt-9 gap-y-9">

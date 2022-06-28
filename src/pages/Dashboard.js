@@ -148,7 +148,7 @@ const Dashboard = () => {
               borderRadius: "5px",
             }}
           >
-            Ghost ID
+            <NavLink to="/ghostid">Ghost ID</NavLink>
           </p>
           <p
             style={{

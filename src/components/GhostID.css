@@ -31,7 +31,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 24px; 
-    line-height: 28.13;
+    /* line-height: 28.13; */
 }
 
 .main .claimBox .ghostId {
@@ -103,25 +103,28 @@
     width: 1030px;
     height: 65px;
     display: flex;
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    padding: 0 20px;
+    color: #30364D;
+    font-weight: 500;
 }
 
 .main .claimList .item .slot .claim {
     
     height: 100%;
-    width: 40%;
+    /* width: 40%; */
     /* border: 5px solid red; */
+    display: flex;
+    align-items: center;
     border-bottom: 2px solid rgb(240, 240, 240);
 }
 
 .main .claimList .item .slot .value {
-    
+    display: flex;
+    align-items: center;
     height: 100%;
-    width: 60%;
+    /* width: 60%; */
     
 }
 

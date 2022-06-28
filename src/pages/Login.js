@@ -10,13 +10,20 @@ import { Loader } from "../shared/Loader";
 
 // Custom Hooks
 import useResponsive from "../customhooks/useResponsive";
+import InvalidPassword from "../components/modals/InvalidPassword";
 
 const Login = () => {
   let navigate = useNavigate();
     const [address, setAddress] = useState("");
     const [loading, setLoading] = useState(false);
+    const [openInvalidPassword, setOpenInvalidPassword] = useState(false);
     const width = useResponsive();
     const web3 = new Web3(Web3.givenProvider);
+
+    const handleInvalidPassword = () => {
+        setOpenInvalidPassword(true);
+    };
+
     const fetchAddress = async () => {
         await window.ethereum
             .request({ method: "eth_requestAccounts" })
@@ -108,6 +115,7 @@ const Login = () => {
     return (
         <>
         {loading && <Loader />}
+        <InvalidPassword open={openInvalidPassword} setOpen={setOpenInvalidPassword} />
         <div
             style={
                 !ifPhone
